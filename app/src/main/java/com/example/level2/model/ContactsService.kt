@@ -13,10 +13,10 @@ class ContactsService {
     init {
         val faker = Faker.instance()
         contacts.shuffle()
-        contacts = (1..100).map { Contacts(
+        contacts = (1..30).map { Contacts(
             id = it,
             name = faker.name().name(),
-            profession = faker.company().name(),
+            profession = faker.job().title(),
             photo = IMAGES[it % IMAGES.size]
         ) }.toMutableList()
     }
@@ -27,6 +27,11 @@ class ContactsService {
             contacts.removeAt(indexToDelete)
             notifyChanges()
         }
+    }
+
+    fun addListener(listener: ContactsListener) {
+        listeners.add(listener)
+        listener.invoke(contacts)
     }
 
     fun removeListener(listener: ContactsListener) {
