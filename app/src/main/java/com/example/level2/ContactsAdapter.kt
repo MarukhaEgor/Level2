@@ -1,15 +1,28 @@
 package com.example.level2
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.level2.databinding.ItemContactBinding
 import com.example.level2.model.Contacts
 
-class ContactsAdapter : RecyclerView.Adapter<ContactsAdapter.ContactsViewHolder>() {
+interface ContactActionListener {
+
+    fun onContactDelete(contact: Contacts)
+
+}
+
+class ContactsAdapter(
+    private val actionListener: ContactActionListener) : RecyclerView.Adapter<ContactsAdapter.ContactsViewHolder>(),
+    View.OnClickListener {
 
     var contacts: List<Contacts> = emptyList()
+        set(newValue) {
+            field = newValue
+            notifyDataSetChanged()
+        }
 
     class ContactsViewHolder(
         val binding: ItemContactBinding
@@ -18,6 +31,10 @@ class ContactsAdapter : RecyclerView.Adapter<ContactsAdapter.ContactsViewHolder>
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactsViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = ItemContactBinding.inflate(inflater, parent, false)
+
+        binding.root.setOnClickListener(this)
+        binding.moreImageViewButton.setOnClickListener(this)
+
         return ContactsViewHolder(binding)
     }
 
@@ -40,14 +57,15 @@ class ContactsAdapter : RecyclerView.Adapter<ContactsAdapter.ContactsViewHolder>
             } else {
                 Glide.with(photoImageView.context).clear(photoImageView)
                 photoImageView.setImageResource(R.drawable.ic_user_avatar)
-                // you can also use the following code instead of these two lines ^
-                // Glide.with(photoImageView.context)
-                //        .load(R.drawable.ic_user_avatar)
-                //        .into(photoImageView)
             }
         }
     }
 
     override fun getItemCount(): Int = contacts.size
+
+    override fun onClick(v: View) {
+        val contact = v.tag as Contacts
+        actionListener.onContactDelete(contact)
+    }
 
 }

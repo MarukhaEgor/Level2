@@ -2,7 +2,7 @@ package com.example.level2.model
 
 import com.github.javafaker.Faker
 
-typealias ContactsListener = (users: List<Contacts>) -> Unit
+typealias ContactsListener = (contacts: List<Contacts>) -> Unit
 
 class ContactsService {
 
@@ -41,7 +41,6 @@ class ContactsService {
     private fun notifyChanges() {
         listeners.forEach { it.invoke(contacts) }
     }
-
 
     companion object {
         private val IMAGES = mutableListOf(

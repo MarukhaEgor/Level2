@@ -23,7 +23,11 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        adapter = ContactsAdapter()
+        adapter = ContactsAdapter(object : ContactActionListener{
+            override fun onContactDelete(contact: Contacts) {
+                contactsService.deleteUser(contact)
+            }
+        })
 
         val layoutManager = LinearLayoutManager(this)
         binding.recyclerView.layoutManager = layoutManager
