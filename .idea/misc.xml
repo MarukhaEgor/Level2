@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidProjects/Level2/app/src/main/res/drawable/ic_trash.xml" value="0.3828125" />
+        <entry key="..\:/AndroidProjects/Level2/app/src/main/res/drawable/rnd_viewhold.xml" value="0.3828125" />
         <entry key="..\:/AndroidProjects/Level2/app/src/main/res/layout/activity_main.xml" value="0.2767210144927536" />
         <entry key="..\:/AndroidProjects/Level2/app/src/main/res/layout/item_contact.xml" value="0.36666666666666664" />
       </map>

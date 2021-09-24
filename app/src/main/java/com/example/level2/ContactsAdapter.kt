@@ -8,17 +8,15 @@ import com.bumptech.glide.Glide
 import com.example.level2.databinding.ItemContactBinding
 import com.example.level2.model.Contacts
 
+
 interface ContactActionListener {
-
     fun onContactDelete(contact: Contacts)
-
 }
 
-class ContactsAdapter(
-    private val actionListener: ContactActionListener) : RecyclerView.Adapter<ContactsAdapter.ContactsViewHolder>(),
+class ContactsAdapter(private val actionListener: ContactActionListener) : RecyclerView.Adapter<ContactsAdapter.ContactsViewHolder>(),
     View.OnClickListener {
 
-    var contacts: List<Contacts> = emptyList()
+    private var contacts: List<Contacts> = emptyList()
         set(newValue) {
             field = newValue
             notifyDataSetChanged()
@@ -32,8 +30,7 @@ class ContactsAdapter(
         val inflater = LayoutInflater.from(parent.context)
         val binding = ItemContactBinding.inflate(inflater, parent, false)
 
-        binding.root.setOnClickListener(this)
-        binding.moreImageViewButton.setOnClickListener(this)
+        binding.delBtn.setOnClickListener(this)
 
         return ContactsViewHolder(binding)
     }
@@ -43,7 +40,7 @@ class ContactsAdapter(
 
         with(holder.binding) {
             holder.itemView.tag = contact
-            moreImageViewButton.tag = contact
+            delBtn.tag = contact
 
             userNameTextView.text = contact.name
             userCompanyTextView.text = contact.profession
@@ -61,11 +58,16 @@ class ContactsAdapter(
         }
     }
 
+    fun refreshUsers(contacts: MutableList<Contacts>){
+        this.contacts = contacts
+    }
+
     override fun getItemCount(): Int = contacts.size
 
     override fun onClick(v: View) {
         val contact = v.tag as Contacts
         actionListener.onContactDelete(contact)
+        notifyDataSetChanged()
     }
 
 }

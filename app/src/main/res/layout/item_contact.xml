@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?android:attr/selectableItemBackground">
+    android:background="@drawable/rnd_viewhold">
 
     <ImageView
         android:id="@+id/photoImageView"
@@ -29,7 +29,7 @@
         tools:text="John Smith"
         app:layout_constraintTop_toTopOf="@id/photoImageView"
         app:layout_constraintStart_toEndOf="@id/photoImageView"
-        app:layout_constraintEnd_toStartOf="@id/moreImageViewButton"/>
+        app:layout_constraintEnd_toStartOf="@id/delBtn"/>
 
     <TextView
         android:id="@+id/userCompanyTextView"
@@ -42,13 +42,13 @@
         tools:text="Google Inc."
         app:layout_constraintTop_toBottomOf="@id/userNameTextView"
         app:layout_constraintStart_toStartOf="@id/userNameTextView"
-        app:layout_constraintEnd_toStartOf="@id/moreImageViewButton"/>
+        app:layout_constraintEnd_toStartOf="@id/delBtn"/>
 
     <ImageView
-        android:id="@+id/moreImageViewButton"
+        android:id="@+id/delBtn"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:src="@drawable/ic_more"
+        android:src="@drawable/ic_trash"
         android:padding="6dp"
         android:layout_marginEnd="12dp"
         android:background="?android:attr/selectableItemBackgroundBorderless"

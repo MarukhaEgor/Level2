@@ -2,19 +2,19 @@ package com.example.level2
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.level2.databinding.ActivityMainBinding
 import com.example.level2.model.Contacts
-import com.example.level2.model.ContactsListener
-import com.example.level2.model.ContactsService
+import com.example.level2.model.ContactsViewModel
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapter: ContactsAdapter
 
-    private val contactsService: ContactsService
-        get() = (applicationContext as App).contactsService
+    private val contactsViewModel by lazy { ViewModelProviders.of(this).get(ContactsViewModel::class.java)}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,23 +25,23 @@ class MainActivity : AppCompatActivity() {
 
         adapter = ContactsAdapter(object : ContactActionListener{
             override fun onContactDelete(contact: Contacts) {
-                contactsService.deleteUser(contact)
+                contactsViewModel.deleteUser(contact)
             }
         })
 
-        val layoutManager = LinearLayoutManager(this)
-        binding.recyclerView.layoutManager = layoutManager
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.recyclerView.adapter = adapter
 
-        contactsService.addListener(contactsListener)
+        contactsViewModel.getListContacts().observe(
+            this,
+            {
+                it?.let {
+                    adapter.refreshUsers(it)
+                }
+            }
+        )
+
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        contactsService.removeListener(contactsListener)
-    }
 
-    private val contactsListener: ContactsListener = {
-        adapter.contacts = it
-    }
 }
